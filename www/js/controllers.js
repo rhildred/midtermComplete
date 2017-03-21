@@ -1,11 +1,12 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['nvd3'])
 
   .controller('AddCtrl', function ($scope, Expenses) {
 
-
-    $scope.addExpense = function (amount, category) {
+    $scope.expense = {};
+    $scope.addExpense = function () {
       //alert("adding expense " + amount);
-      Expenses.add(amount, category);
+      Expenses.add($scope.expense);
+      $scope.expense = {};
     };
 
   })
@@ -42,6 +43,7 @@ angular.module('starter.controllers', [])
         }
       }
     };
+    $scope.data = [];
     Expenses.categories((tx, err, results) => {
       if (!err) {
         $scope.data = results;

@@ -56,12 +56,12 @@ angular.module('starter.services', [])
                     }, callback);
                 });
            },
-            add: function (amount, category) {
+            add: function (expense) {
                 var db = webdb.db;
                 db.transaction(function (tx) {
                     var addedOn = new Date();
                     tx.executeSql("INSERT INTO expenses(amount, category) VALUES (?,?)",
-                        [amount, category],
+                        [expense.amount, expense.category],
                         webdb.onSuccess,
                         webdb.onError);
                 });
