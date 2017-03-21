@@ -6,7 +6,6 @@ angular.module('starter.services', [])
         // Database Initialization
         var dbSize = 5 * 1024 * 1024; // 5MB
         var webdb = {};
-        var expenses = [];
         webdb.db = openDatabase("Expenses", "1", "Todo manager", dbSize);
         webdb.onError = function (tx, e) {
             alert("There has been an error: " + e.message);
@@ -23,9 +22,9 @@ angular.module('starter.services', [])
         return {
             all: function (callback) {
                 var db = webdb.db;
+                var expenses = [];
                 db.transaction(function (tx) {
                     tx.executeSql("SELECT * FROM expenses ORDER BY added_on", [], (tx, rs) => {
-                        expenses.splice(0, expenses.length);
                         for (var i = 0; i < rs.rows.length; i++) {
                             expenses.push({
                                 id: rs.rows.item(i).id,
@@ -41,8 +40,22 @@ angular.module('starter.services', [])
                 });
 
             },
-            categories: function () {
-            },
+            categories: function (callback) {
+                 var db = webdb.db;
+                var categories = [];
+                db.transaction(function (tx) {
+                    tx.executeSql("SELECT category, SUM(amount) AS count FROM expenses GROUP BY category ORDER BY category", [], (tx, rs) => {
+                        for (var i = 0; i < rs.rows.length; i++) {
+                            categories.push({
+                                category: rs.rows.item(i).category,
+                                count: rs.rows.item(i).count
+                            });
+
+                        }
+                        callback(tx, null, categories);
+                    }, callback);
+                });
+           },
             add: function (amount, category) {
                 var db = webdb.db;
                 db.transaction(function (tx) {

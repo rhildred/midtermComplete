@@ -62,11 +62,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       })
 
       .state('tab.graph', {
+        cache: false,
         url: '/graph',
         views: {
           'tab-graph': {
-            templateUrl: 'templates/tab-account.html',
-            controller: 'AccountCtrl'
+            templateUrl: 'templates/tab-graph.html',
+            controller: 'GraphCtrl'
           }
         }
       });
