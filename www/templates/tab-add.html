@@ -1,0 +1,14 @@
+<ion-view view-title="Add">
+    <ion-content class="padding">
+        <form ng-submit="addExpense(amount, category)">
+            
+            <input ng-model="amount" type="text" placeholder="expense amount" /><br />
+            <select ng-model="category">
+                <option value="food">Food</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="clothes">Clothes</option>
+            </select><br />
+            <button type="submit">Add Expense</button>
+        </form>
+    </ion-content>
+</ion-view>
